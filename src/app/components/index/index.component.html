@@ -1,0 +1,78 @@
+<div class="container">
+    <mat-form-field class="example-form-field">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+        <button mat-button 
+                *ngIf="value" 
+                matSuffix 
+                mat-icon-button 
+                (click)="searchByName()" 
+                [disabled]="disabled" 
+                (keyup)="onKeyUpEvent($event)"
+                (value)="value"
+                matTooltip="Click to search books!">
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-form-field> 
+    &nbsp;
+
+    <mat-form-field class="example-form-field">
+        <mat-label>Number Page</mat-label>
+        <input matInput type="number" [(ngModel)]="page">
+    </mat-form-field>
+
+    <mat-card class="example-card">
+        <div fxLayout fxLayoutAlign="center center">
+            <mat-form-field fxFlex="100%">
+            <input matInput type="text" (keyup)="doFilter($any($event.target).value)" placeholder="Filter Table">
+            </mat-form-field>
+        </div>
+        <div #table>
+            <mat-card-content>
+                <table mat-table 
+                cdkDropList 
+                cdkDropListOrientation="horizontal"
+                (cdkDropListDropped)="tableDrop($event)"
+                [dataSource]="dataSource"
+                matSort
+                class="mat-elevation-z8">
+        
+                    <ng-container *ngFor="let column of columns;"
+                            [matColumnDef]="column.name">
+        
+                        <th mat-header-cell *matHeaderCellDef 
+                                        cdkDrag 
+                                        cdkDragLockAxis="x" 
+                                        cdkDragBoundary="mat-header-row"
+                                        mat-sort-header>
+                            {{ column.title }}
+                        </th>
+
+                        <td  mat-cell *matCellDef="let element; let i = index">
+                            <div *ngIf="column.name == 'title';else show">
+                                <div (click)="openDialog(i)">{{element[column.name] }}</div>
+                            </div>
+                            <ng-template #show>
+                                {{ element[column.name] }}
+                            </ng-template>
+                        </td >
+        
+                    </ng-container>
+                    <tr mat-header-row 
+                        *matHeaderRowDef="getDisplayedColumns()"
+                        class="tableHeaderRow"
+                        #tableHeaderRow></tr>
+                    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns(); let i = index; let k =keys;"
+                        ></tr>
+                </table> 
+            </mat-card-content>
+        </div>
+        <mat-card-actions>
+            <mat-paginator [length]="length"
+                    [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions"
+                    (page)="pageEvent = $event">
+            </mat-paginator>
+        </mat-card-actions>
+    </mat-card>
+</div>
