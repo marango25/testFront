@@ -17,11 +17,11 @@ export class SidebarComponent implements OnDestroy {
   private _mobileQueryListener: () => void;
 
   public checked:any= [
-    {name:"Title", value:null},
-    {name:"Subtitle", value:null},
-    {name:"Isbn13", value:null},
-    {name:"Price", value:null},
-    {name:"URL", value:null}
+    {name:"Title", value:true},
+    {name:"Subtitle", value:true},
+    {name:"Isbn13", value:true},
+    {name:"Price", value:true},
+    {name:"URL", value:true}
   ];
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, @Inject(SESSION_STORAGE) private storage: StorageService) {
@@ -30,7 +30,15 @@ export class SidebarComponent implements OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
 
     this.checked.forEach((element: any) => {
-      element.value = this.storage.get(element.name);
+      let check = this.storage.get(element.name);
+      
+      if(check === void 0){
+        
+      }else{
+        element.value = this.storage.get(element.name);
+        console.log(element.value)
+      }
+      
     });
   }
 
@@ -55,7 +63,8 @@ export class SidebarComponent implements OnDestroy {
   showOptions(event:any, position:any, name:any): void{
     console.log(this.checked[position])
     this.checked[position].value = this.checked[position].value ? false : true;
-    this.index.columns[position].hide = this.checked[position].value;
+    
+    this.index.columns[position].hide = this.checked[position].value ? false : true;
   }
 
   exportAsExcel(){

@@ -27,11 +27,11 @@ export class IndexComponent implements OnInit {
   public disabled:boolean = false;
 
   columns: any[] = [
-    { name: 'title', title: 'Title', hide: false, propierty:null },
-    { name: 'subtitle', title: 'Subtitle', hide: false, propierty:null },
-    { name: 'isbn13', title: 'Isbn13', hide: false, propierty:null },
-    { name: 'price', title: 'Price', hide: false, propierty:null },
-    { name: 'url', title: 'URL', hide: false, propierty:null }
+    { name: 'title', title: 'Title', hide: false },
+    { name: 'subtitle', title: 'Subtitle', hide: false },
+    { name: 'isbn13', title: 'Isbn13', hide: false },
+    { name: 'price', title: 'Price', hide: false },
+    { name: 'url', title: 'URL', hide: false }
   ];
 
   data:any[] = [];
@@ -81,7 +81,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.columns.map((value:any, index:any)=>{
-      value.hide = this.storage.get(value.title) ;   
+      value.hide = this.storage.get(value.title) ? false: true ;   
     });
     this.searchByName();
   }

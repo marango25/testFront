@@ -29,7 +29,14 @@
             <mat-nav-list>
                 <a mat-list-item routerLink="." *ngFor="let item of checked; let i = index">
                     <section>
-                        <mat-checkbox [attr.id]="item.name.toLowerCase()" class="example-margin" [(ngModel)]="item.value" (click)="showOptions($event,i,item.name)">{{item.name}}</mat-checkbox>
+                        <mat-checkbox [attr.id]="item.name.toLowerCase()" 
+                                    class="example-margin" 
+                                    [(ngModel)]="item.value" 
+                                    (click)="showOptions($event,i,item.name)">
+
+                                    {{item.name}}
+                                    
+                        </mat-checkbox>
                     </section>
                 </a>
             </mat-nav-list>
